@@ -63,7 +63,19 @@
         }
 
         function subscribe() {
-            window.open("https://www.youtube.com/@NikhilKumar12366?sub_confirmation=1", "_blank");
+            let channelURL = "https://www.youtube.com/@NikhilKumar12366?sub_confirmation=1";
+            let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android|iphone|ipad|ipod/i.test(userAgent)) {
+                // Agar mobile hai, direct YouTube app me open karne ki koshish kare
+                window.location.href = `vnd.youtube://www.youtube.com/@NikhilKumar12366?sub_confirmation=1`;
+                setTimeout(() => {
+                    window.location.href = channelURL; // Agar app open nahi hota to browser me redirect kare
+                }, 2000);
+            } else {
+                // Desktop users ke liye normal popup open kare
+                window.open(channelURL, "_blank");
+            }
             closePopup();
         }
 
